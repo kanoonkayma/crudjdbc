@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/kayma.silva/Documents/NetBeansProjects/AulaJdbcCrud/src/br/com/senac/dao/UsuarioDaoImpl.java</file>
+            <file>file:/C:/Users/kayma.silva/Documents/NetBeansProjects/AulaJdbcCrud/test/br/com/senac/dao/UsuarioDaoImplTest.java</file>
+            <file>file:/C:/Users/kayma.silva/Documents/NetBeansProjects/AulaJdbcCrud/src/br/com/senac/dao/UsuarioDAO.java</file>
+            <file>file:/C:/Users/kayma.silva/Documents/NetBeansProjects/AulaJdbcCrud/src/br/com/senac/entidade/Usuario.java</file>
+            <file>file:/C:/Users/kayma.silva/Documents/NetBeansProjects/AulaJdbcCrud/src/br/com/senac/dao/FabricaConexa.java</file>
+        </group>
+    </open-files>
+</project-private>
