@@ -56,43 +56,62 @@ public class ClienteDaoImpl implements ClienteDAO {
         }
     }
 
+    
     @Override
-    public void alterar(Usuario usuario) throws Exception {
-        String sql = "UPDATE usuario SET nome = ?, login = ?, senha = ? WHERE idusuario = ?";
+    public void alterar(Cliente cliente) throws Exception {
+        String sql = "UPDATE cliente SET nome = ?, cpf = ?, rg = ?, salario = ? WHERE id = ?";
         
         try {
             conexao = FabricaConexa.abrirConexao();
             prepareStatement = conexao.prepareStatement(sql);
             
-            prepareStatement.setString(1, usuario.getNome());
-            prepareStatement.setString(2, usuario.getLogin());
-            prepareStatement.setString(3, usuario.getSenha());
+            prepareStatement.setString(1, cliente.getNome());
+            prepareStatement.setString(2, cliente.getCpf());
+            prepareStatement.setString(3, cliente.getRg());
+            prepareStatement.setDouble(4, cliente.getSalario());
+            prepareStatement.setInt(5, cliente.getId());
+            
             
             prepareStatement.executeUpdate();
             
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar usuário!" + e.getMessage());
+            System.out.println("Erro ao atualizar cliente!" + e.getMessage());
         }
     }
 
     @Override
     public void remover(Integer id) throws Exception {
+        
+        try{
+        conexao = FabricaConexa.abrirConexao();
+        prepareStatement = conexao.prepareStatement("DELETE FROM usuario WHERE id = ?");
+        prepareStatement.setInt(1, id);
+        
+        prepareStatement.executeUpdate();
+         
+        }catch(SQLException e){
+        System.out.println("Deletar não será possível" + e.getMessage());
+        }
+         
+        
     }
 
     @Override
-    public Usuario pesquisarPorId(Integer id) throws Exception {
+    public Cliente pesquisarPorId(Integer id) throws Exception {
+        return null;
+    }
+
+    
+    public List<Cliente> pesquisarTodos() throws Exception {
         return null;
     }
 
     @Override
-    public List<Usuario> pesquisarTodos() throws Exception {
+    public List<Cliente> pesquisarPorNome(String nome) throws Exception {
         return null;
     }
 
-    @Override
-    public List<Usuario> pesquisarPorNome(String nome) throws Exception {
-        return null;
-    }
+    
 
     
     

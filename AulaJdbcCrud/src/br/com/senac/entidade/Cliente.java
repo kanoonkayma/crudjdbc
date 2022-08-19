@@ -17,6 +17,9 @@ public class Cliente {
     private String rg;
     private Double salario;
 
+    public Cliente(){
+    }
+    
     public Cliente(String nome, String cpf, String rg, Double salario) {
         this.nome = nome;
         this.cpf = cpf;

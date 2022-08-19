@@ -23,13 +23,13 @@ public interface ClienteDAO {
     
    void salvar(Cliente cliente) throws SQLDataException;
    
-   void alterar(Usuario usuario) throws Exception;
+   void alterar(Cliente cliente) throws Exception;
    
    void remover(Integer id) throws Exception;
    
-   Usuario pesquisarPorId(Integer id) throws Exception;
+   Cliente pesquisarPorId(Integer id) throws Exception;
    
-   List<Usuario> pesquisarTodos() throws Exception;
+   List<Cliente> pesquisarTodos() throws Exception;
    
-   List<Usuario> pesquisarPorNome(String nome) throws Exception;
+   List<Cliente> pesquisarPorNome(String nome) throws Exception;
 }

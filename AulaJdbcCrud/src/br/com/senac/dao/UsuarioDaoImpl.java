@@ -46,7 +46,7 @@ public class UsuarioDaoImpl implements UsuarioDAO {
 
     @Override
     public void alterar(Usuario usuario) throws Exception {
-        String sql = "UPDATE usuario SET nome = ?, login = ?, senha = ? WHERE idusuario = ?";
+        String sql = "UPDATE usuario SET nome = ?, login = ?, senha = ? WHERE id = ?";
         
         try {
             conexao = FabricaConexa.abrirConexao();
@@ -55,16 +55,33 @@ public class UsuarioDaoImpl implements UsuarioDAO {
             prepareStatement.setString(1, usuario.getNome());
             prepareStatement.setString(2, usuario.getLogin());
             prepareStatement.setString(3, usuario.getSenha());
+            prepareStatement.setInt(4, usuario.getId());
+            
             
             prepareStatement.executeUpdate();
             
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar usuário!" + e.getMessage());
+            System.out.println("Erro ao alterar usuário!" + e.getMessage());
+        }finally{
+        
+            FabricaConexa.fecharConexao(conexao, prepareStatement, resultado);
         }
     }
 
     @Override
     public void remover(Integer id) throws Exception {
+        try{
+        conexao = FabricaConexa.abrirConexao();
+        prepareStatement = conexao.prepareStatement("DELETE FROM usuario WHERE id = ?");
+        prepareStatement.setInt(1, id);
+        
+        prepareStatement.executeUpdate();
+         
+        }catch(SQLException e){
+        System.out.println("Deletar não será possível" + e.getMessage());
+        }
+         
+        
     }
 
     @Override
@@ -87,7 +104,7 @@ public class UsuarioDaoImpl implements UsuarioDAO {
                 usuario.setNome(resultado.getString("nome"));
                 usuario.setLogin(resultado.getString("login"));
                 usuario.setSenha(resultado.getString("senha"));
-                usuario.setUltimoAcesso(resultado.getDate("ultimo"));
+                usuario.setUltimoAcesso(resultado.getDate("ultimo_acesso"));
             }
             
         } catch (SQLException e) {
@@ -97,7 +114,7 @@ public class UsuarioDaoImpl implements UsuarioDAO {
             FabricaConexa.fecharConexao(conexao, prepareStatement, resultado);
         }
         
-        return null;
+        return usuario;
     }
 
     @Override

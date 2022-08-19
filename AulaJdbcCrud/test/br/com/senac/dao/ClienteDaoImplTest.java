@@ -8,6 +8,9 @@ package br.com.senac.dao;
 import br.com.senac.entidade.Cliente;
 import br.com.senac.entidade.Usuario;
 import gerador.Gerador;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -25,7 +28,7 @@ public class ClienteDaoImplTest {
         clienteDAO = new ClienteDaoImpl();
     }
 
-    @Test
+    //@Test
     public void testSalvar() throws Exception {
         System.out.println("salvar");
         cliente = new Cliente(
@@ -37,54 +40,70 @@ public class ClienteDaoImplTest {
         assertNotNull(cliente.getId());
     }
 
-    //@Test
+    @Test
     public void testAlterar() throws Exception {
         System.out.println("alterar");
-        Usuario usuario = null;
-        ClienteDaoImpl instance = new ClienteDaoImpl();
-        instance.alterar(usuario);
-        fail("The test case is a prototype.");
+        buscarClienteBD();
+        
+        cliente.setNome(Gerador.gerarNome());
+        
+        clienteDAO.alterar(cliente);
+        
+        Cliente clienteAlt = clienteDAO.pesquisarPorId(cliente.getId());
+        
+        assertEquals(cliente.getNome(), clienteAlt.getNome());
     }
 
     //@Test
     public void testRemover() throws Exception {
-        System.out.println("remover");
-        Integer id = null;
-        ClienteDaoImpl instance = new ClienteDaoImpl();
-        instance.remover(id);
-        fail("The test case is a prototype.");
+       System.out.println("remover");
+        buscarClienteBD();
+        
+        clienteDAO.remover(cliente.getId());
+         
+        Cliente clienteDel = clienteDAO.pesquisarPorId(cliente.getId());
+        
+        assertNull(clienteDel);
     }
 
     //@Test
     public void testPesquisarPorId() throws Exception {
         System.out.println("pesquisarPorId");
-        Integer id = null;
-        ClienteDaoImpl instance = new ClienteDaoImpl();
-        Usuario expResult = null;
-        Usuario result = instance.pesquisarPorId(id);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        
+        
     }
 
    //@Test
     public void testPesquisarTodos() throws Exception {
         System.out.println("pesquisarTodos");
-        ClienteDaoImpl instance = new ClienteDaoImpl();
-        List<Usuario> expResult = null;
-        List<Usuario> result = instance.pesquisarTodos();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+
     }
 
     //@Test
     public void testPesquisarPorNome() throws Exception {
         System.out.println("pesquisarPorNome");
-        String nome = "";
-        ClienteDaoImpl instance = new ClienteDaoImpl();
-        List<Usuario> expResult = null;
-        List<Usuario> result = instance.pesquisarPorNome(nome);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+ 
+    }
+    
+    public Cliente buscarClienteBD() throws Exception{
+        String sql = "SELECT * FROM cliente";
+        
+        Connection conexao = FabricaConexa.abrirConexao();
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        ResultSet resultado = prepareStatement.executeQuery();
+        
+        if(resultado.next()){
+            
+                cliente = new Cliente();
+                cliente.setId(resultado.getInt("id"));
+                cliente.setNome(resultado.getString("nome"));
+                cliente.setCpf(resultado.getString("cpf"));
+                cliente.setRg(resultado.getString("rg"));
+                cliente.setSalario(resultado.getDouble("salario"));
+            } else {
+            testSalvar();
+        }
+        return cliente;
     }
     
 }
