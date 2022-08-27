@@ -59,7 +59,7 @@ public class UsuarioDaoImplTest {
         
     }
 
-    @Test
+    //@Test
     public void testRemover() throws Exception {
         System.out.println("remover");
         buscarUsuarioBD();
@@ -83,22 +83,26 @@ public class UsuarioDaoImplTest {
     //@Test
     public void testPesquisarTodos() throws Exception {
         System.out.println("pesquisarTodos");
-        UsuarioDaoImpl instance = new UsuarioDaoImpl();
-        List<Usuario> expResult = null;
-        List<Usuario> result = instance.pesquisarTodos();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        buscarUsuarioBD();
+        
+        List <Usuario> usuarioTodos = usuarioDAO.pesquisarTodos();
+        
+        assertTrue(!usuarioTodos.isEmpty());
+        //assertFalse
+        
+        
     }
 
-    //@Test
+    @Test
     public void testPesquisarPorNome() throws Exception {
         System.out.println("pesquisarPorNome");
-        String nome = "";
-        UsuarioDaoImpl instance = new UsuarioDaoImpl();
-        List<Usuario> expResult = null;
-        List<Usuario> result = instance.pesquisarPorNome(nome);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        buscarUsuarioBD();
+                
+        List <Usuario> usuarioNome = usuarioDAO.pesquisarPorNome(usuario.getNome());
+        
+        assertTrue(!usuarioNome.isEmpty());
+        
+
     }
     
     public Usuario buscarUsuarioBD() throws Exception{

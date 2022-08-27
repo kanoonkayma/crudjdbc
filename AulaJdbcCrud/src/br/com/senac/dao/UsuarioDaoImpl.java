@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -120,14 +121,67 @@ public class UsuarioDaoImpl implements UsuarioDAO {
     @Override
     public List<Usuario> pesquisarTodos() throws Exception {
         
+        String sql = "SELECT * FROM usuario ORDER BY nome ASC";
+        //Usuario usuario;
+        List<Usuario> usuarios = new ArrayList();
         
+        try {
+            conexao = FabricaConexa.abrirConexao();
+            prepareStatement = conexao.prepareStatement(sql);
+            
+            resultado = prepareStatement.executeQuery();
+            //
+            while (resultado.next()){
+            Usuario usuario = new Usuario();
+            usuario.setId(resultado.getInt("id"));
+            usuario.setNome(resultado.getString("nome"));
+            usuario.setLogin(resultado.getString("login"));
+            usuario.setSenha(resultado.getString("senha"));
+            usuario.setUltimoAcesso(resultado.getDate("ultimo_acesso"));
+            usuarios.add(usuario);
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Erro ao pesquisar todos!" + e.getMessage());
+        } finally {
+            FabricaConexa.fecharConexao(conexao, prepareStatement, resultado);
+        }
         
-        return null;
+        return usuarios;
     }
 
     @Override
     public List<Usuario> pesquisarPorNome(String nome) throws Exception {
-        return null;
+        
+        String sql = "SELECT * FROM usuario WHERE nome LIKE ?";
+        List<Usuario> usuarios = new ArrayList();
+        //Usuario usuario;
+        try {
+            conexao = FabricaConexa.abrirConexao();
+            prepareStatement = conexao.prepareStatement(sql);
+            prepareStatement.setString(1, "%" + nome + "%");
+            
+            resultado = prepareStatement.executeQuery();
+            
+            while (resultado.next()){
+            Usuario usuario = new Usuario();
+           
+            usuario.setId(resultado.getInt("id"));
+            usuario.setNome(resultado.getString("nome"));
+            usuario.setLogin(resultado.getString("login"));
+            usuario.setSenha(resultado.getString("senha"));
+            usuario.setUltimoAcesso(resultado.getDate("ultimo_acesso"));
+            usuarios.add(usuario);
+            
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao pesquisar por nome!" + e.getMessage());
+        } finally{
+        FabricaConexa.fecharConexao(conexao, prepareStatement, resultado);
+        }
+        
+        return usuarios;
     }
     
 }
